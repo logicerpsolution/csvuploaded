@@ -1,0 +1,93 @@
+<head>
+</head>
+<body>
+<div class="container">
+<!--  {{>searchBox1}} -->
+<div class="row">  {{>upload}}  
+ <button type="submit" class="AddPlaceButton btn btn-success" id="btn"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>Submit</button>
+</div>
+</div>
+</body>
+
+<template name="upload">
+{{#unless uploading}}
+
+<div class="row">
+<div class="col-sm-4">
+<div class="form-group">
+<input type="file" name="uploadCSV" class="form-control" />
+</div>
+</div>
+</div>
+Search Here:  {{> EasySearch.Input index=playersIndex }}  
+
+    <!--  <ul>
+        {{ #EasySearch.Each index=playersIndex }}	
+     <li>Name: {{Navn}}  CVR: {{_id}}</li> 
+        {{ /EasySearch.Each }}
+     </ul>  -->
+	 
+<div class="row">
+<div class="table-responsive">  
+<table class="table">
+<tr>
+{{#each gridCount}}
+<td>
+ {{>dropdownTemplate getIndex gridHeader this }} 
+</td>
+{{/each}}
+</tr>
+
+ {{> EasySearch.LoadMore index=playersIndex}} 
+ 
+{{#EasySearch.IfNoResults index=playersIndex}}
+  <div>No results found!</div>
+{{/EasySearch.IfNoResults}}
+
+{{#with record }}
+ {{ #EasySearch.Each index=playersIndex }}	 
+<!-- {{#each this}} -->
+<tr>
+ 	  <td>{{_id}}</td> 
+ <!-- <td>{{CVRnummer}}</td> -->
+ <td>{{Navn}}</td>
+ <td>{{Afskrivninger}}</td>
+ <td>{{Selskabsstatus}}</td>
+ <td>{{Selskabsform}}</td>
+ <td>{{Vejnavn}}</td>
+ <td>{{Husnummer}}</td>
+ <td>{{Postnummer}}</td>
+ <td>{{By}}</td>
+</tr>  
+<!-- {{/each}} -->
+   {{/EasySearch.Each}}  
+{{/with}}  
+ </table>    
+</div>
+</div>
+{{else}}
+<p><i class="fa fa-spin fa-refresh"></i> Uploading files...</p>
+{{/unless}}
+</template>
+
+<template name="dropdownTemplate">
+<select id="category-select{{this.index}}">
+<option disabled="disabled" selected="selected">Please Select</option> 
+	 {{#each this.gridHeader}}
+        <option value="{{this}}" >{{this}}</option> 
+     {{/each}}
+</select>
+</template>
+
+ <!-- <template name="searchBox1"> 
+   Search Here:  {{> EasySearch.Input index=playersIndex }}  
+     <ul>
+        {{ #EasySearch.Each index=playersIndex }}	
+      <li>Name: {{Navn}}  CVR: {{_id}}</li> 
+        {{/EasySearch.Each}}
+    </ul> 
+ </template>  -->
+
+
+
+
